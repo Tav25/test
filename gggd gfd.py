@@ -26,7 +26,3 @@ def tho():
 
 
 timeit(one())
-#print(l1)
-#print(l2)
-
-#input()
