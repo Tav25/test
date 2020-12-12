@@ -1,9 +1,4 @@
 from datetime import datetime
-
-
-
-
-
 def timeit(func):
     def wrap():
         start = datetime.now()
@@ -31,7 +26,4 @@ def tho():
 
 
 timeit(one())
-#print(l1)
-#print(l2)
-
-#input()
+# klklklklklk
