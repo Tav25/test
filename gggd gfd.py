@@ -1,9 +1,4 @@
 from datetime import datetime
-
-
-
-
-
 def timeit(func):
     def wrap():
         start = datetime.now()
