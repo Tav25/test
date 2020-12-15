@@ -4,7 +4,12 @@ class Dictionary {
     // this.initialize();
     this.dataFromCovodApi();
     this.entries = [];
-    this.apiData = [];
+    this.apiData = [0, 0, 0, 5, 6, 7, 8, 9, 5, 9, 6, {
+      country: 56,
+      iso3: 6,
+      flag: 67,
+    }];
+    this.test = '444';
   }
 
   dataFromCovodApi() {
@@ -13,13 +18,14 @@ class Dictionary {
       .then((entries) => {
         this.entries = entries;
         this.df();
+        return this.apiData;
       });
   }
 
   df() {
-    console.log(this.entries, 'e1');
+    console.log('e1');
     this.test1();
-    console.log(this.apiData);
+    console.log('e2');
   }
 
   test1() {
@@ -28,25 +34,48 @@ class Dictionary {
         {
           country: element.country,
           iso3: element.countryInfo.iso3,
-          flag: element.countryInfo.flag,
-          countryСenterСoordinates:`${element.countryInfo.lat},${element.countryInfo.long}`,
-          totalCases: element.cases,
-          totalDeaths: element.deaths,
-          totalRecovery: element.recovered,
-          casesInLastDay: element.todayCases,
-          deathInLastDay: element.todayDeaths,
-          recoveryInLastDay: element.todayRecovered,
-          per100ThousandCases: 0,
-          per100ThousandDeath: 0,
-          per100ThousandRecovery: 0,
-          per100ThousandCasesInLastDay: 0,
-          per100ThousandDeathInLastDay: 0,
-          per100ThousandRecoveryInLastDay: 0,
-          
+          // flag: element.countryInfo.flag,
+          // countryСenterСoordinates: `${element.countryInfo.lat},${element.countryInfo.long}`,
+          // totalCases: element.cases,
+          // totalDeaths: element.deaths,
+          // totalRecovery: element.recovered,
+          // casesInLastDay: element.todayCases,
+          // deathInLastDay: element.todayDeaths,
+          // recoveryInLastDay: element.todayRecovered,
+          // per100KCases: 0,
+          // per100KDeath: 0,
+          // per100KRecovery: 0,
+          // per100KCasesInLastDay: 0,
+          // per100KDeathInLastDay: 0,
+          // per100KRecoveryInLastDay: 0,
+    
         },
       );
     });
   }
-}
 
-testW = new Dictionary();
+
+
+}
+const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
+( async () =>{
+
+  testW = new Dictionary();
+  await sleepNow(100)
+  await console.log('s1');
+  await  console.log(testW.apiData, '666');
+  document.querySelector('body > div.testClass').innerHTML = testW.apiData[15].country;
+
+})()
+
+
+
+
+// console.log('a1');
+// console.log(testW.apiData, '666');
+// console.log('a2');
+// console.log('b1');
+// document.querySelector('body > div.testClass').innerHTML = testW.apiData;
+// console.log('b2');
+

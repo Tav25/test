@@ -121,3 +121,27 @@ console.log(testW.dataFromCovodApi, 'e6');
 window.addEventListener('load', (event) => {
   console.log('All resources finished loading!');
 });
+
+this.entries.forEach((element) => {
+  this.apiData.push(
+    {
+      country: element.country,
+      iso3: element.countryInfo.iso3,
+      // flag: element.countryInfo.flag,
+      // countryСenterСoordinates: `${element.countryInfo.lat},${element.countryInfo.long}`,
+      // totalCases: element.cases,
+      // totalDeaths: element.deaths,
+      // totalRecovery: element.recovered,
+      // casesInLastDay: element.todayCases,
+      // deathInLastDay: element.todayDeaths,
+      // recoveryInLastDay: element.todayRecovered,
+      // per100KCases: 0,
+      // per100KDeath: 0,
+      // per100KRecovery: 0,
+      // per100KCasesInLastDay: 0,
+      // per100KDeathInLastDay: 0,
+      // per100KRecoveryInLastDay: 0,
+
+    },
+  );
+});
