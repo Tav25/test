@@ -1,147 +1,141 @@
-// async function getDataFromApi() {
-//     const requestOptions = {
-//       method: 'GET',
-//       redirect: 'follow',
-//     };
 
-//     let resp = await fetch('https://disease.sh/v3/covid-19/countries', requestOptions)
-//     let content = await resp.json()
-//     // console.log(content)
-//     return content
-//   }
 
-//   getDataFromApi()
 
-class Cards {
-  constructor() {
-    this.pathToApi = 'https://disease.sh/v3/covid-19/countries';
-    this.test = 'this is test!';
-    this.apiData = [];
-    this.dataOfCovidCountru = {
-      country: 'not country',
-      iso3: '',
-      flag: '',
-      totalCases: 0,
-      totalDeaths: 0,
-      totalRecovery: 0,
-      totalCasesInLastDay: 0,
-      totalDeathInLastDay: 0,
-      totalRecoveryInLastDay: 0,
-      per100ThousandCases: 0,
-      per100ThousandDeath: 0,
-      per100ThousandRecovery: 0,
-      per100ThousandCasesInLastDay: 0,
-      per100ThousandDeathInLastDay: 0,
-      per100ThousandRecoveryInLastDay: 0,
+(async () => {
+  let contrCovid;
+  let globalCovid;
+  // let contrCovidfromDate;
 
-    };
+  await fetch('https://disease.sh/v3/covid-19/all')
+    .then((response) => response.json())
+    .then((entries) => {
+      // console.log(entries)
+      globalCovid = entries
+    });
+
+
+  await fetch('https://disease.sh/v3/covid-19/countries')
+    .then((response) => response.json())
+    .then((entries) => {
+      // console.log(entries)
+      contrCovid = entries
+    });
+
+
+  // await fetch('https://disease.sh/v3/covid-19/all')
+  //   .then((response) => response.json())
+  //   .then((entries) => {
+  //     // console.log(entries)
+  //   })
+
+  await (() => {
+    console.log('4444')
+    contrCovid.forEach((element) => {
+      // console.log(element.countryInfo.iso3)
+      fetch(`https://disease.sh/v3/covid-19/historical/${element.countryInfo.iso3}?lastdays=all`)
+        .then((response) => {
+          if (!response.ok) {
+            throw Error(`is not ok: ` + resp.status);
+          }
+
+          // console.log(response.ok);
+          return response.json()
+        })
+        .then((entries) => {
+          console.log(entries)
+
+        })
+        .catch((err) => {
+          console.warn(err)
+        })
+    });
+  })()
+
+
+  await main(globalCovid, contrCovid)
+
+})();
+
+class Covid19 {
+  constructor(globalCovid, contrCovid) {
+    // this.urlCountry = 'https://disease.sh/v3/covid-19/countries';
+    // this.urlTotal = 'https://disease.sh/v3/covid-19/all';
+    this.dataGlobalCovid = globalCovid;
+    this.datacontrCovid = contrCovid;
+
+    this.apiDataCountry = [];
+    this.apiDataTotal = [];
+    this.per100кРopulation = 100000;
+    this.dataForTest = 'testData';
+    this.getDataFromCovodApiTotal();
+    this.getDataFromCovodApiCountry();
   }
 
-  async getDataFromApi() {
-    const requestOptions = {
-      method: 'GET',
-      redirect: 'follow',
-    };
+  getDataFromCovodApiCountry() {
+    // let entries = this.dataForTest;
 
-    const resp = await fetch(this.pathToApi, requestOptions);
-    const content = await resp.json();
-    // console.log(content)
-    return await content;
-    // fetch(this.pathToApi, requestOptions)
-    //   .then((response) => response.json())
-    //   .then((result) => {
-    //     this.apiData = result;
-    //     console.log(result);
-    //     console.log(this.dataOfCovidCountru.country);
-    //     // this.apiData.forEach((element) => {
-    //     //   console.log(element.country);
-    //     // });
-    //   })
-    //   .catch((error) => console.log('error', error));
-  }
+    this.datacontrCovid.forEach((element) => {
+      this.apiDataCountry.push(
+        {
+          country: element.country,
+          iso3: element.countryInfo.iso3,
+          flag: element.countryInfo.flag,
+          countryСenterСoordinates: [element.countryInfo.lat, element.countryInfo.long],
+          totalCases: element.cases,
+          totalDeaths: element.deaths,
+          totalRecovery: element.recovered,
+          casesInLastDay: element.todayCases,
+          deathInLastDay: element.todayDeaths,
+          recoveryInLastDay: element.todayRecovered,
+          per100KCases: Math.round((element.cases / element.population) * this.per100кРopulation),
+          per100KDeath: Math.round((element.deaths / element.population) * this.per100кРopulation),
+          per100KRecovery: Math.round((element.recovered / element.population) * this.per100кРopulation),
+          per100KCasesInLastDay: Math.round((element.todayCases / element.population) * this.per100кРopulation),
+          per100KDeathInLastDay: Math.round((element.todayDeaths / element.population) * this.per100кРopulation),
+          per100KRecoveryInLastDay: Math.round((element.todayRecovered / element.population) * this.per100кРopulation),
 
-  test1() {
-    console.log('t1+');
-    console.log(this.dataOfCovidCountru.country);
-    console.log(this.apiData);
-    console.log('t1-');
-  }
-
-  showData() {
-    console.log(this.dataOfCovidCountru);
-  }
-}
-
-// menuExClass = new Cards();
-// menuExClass.showData();
-// menuExClass.getDataFromApi();
-// menuExClass.test1();
-// console.log(menuExClass.apiData(), '++++');
-
-class Dictionary {
-  constructor() {
-    this.url = 'https://disease.sh/v3/covid-19/countries';
-    this.initialize();
-    // this.df();
-    this.categoryMethod();
-    this.entries = [];
-  }
-
-  initialize() {
-    fetch(this.url)
-      .then((response) => response.json())
-      .then((entries) => {
-        this.entries = entries;
-        // console.log(this.entries, 'e1');
-        return entries;
-      });
-  }
-
-  get dataFromCovodApi() {
-    fetch(this.url)
-      .then((response) => response.json())
-      .then((entries) => entries);
-  }
-
-  df() {
-    console.log(this.entries, 'e2');
-  }
-
-  categoryMethod() {
-    document.querySelector('#xbut').addEventListener('mouseup', async (e) => {
-      console.log(this.entries, 'e3');
-      this.df();
+        },
+      );
     });
   }
+
+  getDataFromCovodApiTotal() {
+    let entries = this.dataGlobalCovid
+    this.apiDataTotal.push(
+      {
+        country: 'total',
+        totalCases: entries.cases,
+        totalDeaths: entries.deaths,
+        totalRecovery: entries.recovered,
+        casesInLastDay: entries.todayCases,
+        deathInLastDay: entries.todayDeaths,
+        recoveryInLastDay: entries.todayRecovered,
+        per100KCases: Math.round((entries.cases / entries.population) * this.per100кРopulation),
+        per100KDeath: Math.round((entries.deaths / entries.population) * this.per100кРopulation),
+        per100KRecovery: Math.round((entries.recovered / entries.population) * this.per100кРopulation),
+        per100KCasesInLastDay: Math.round((entries.todayCases / entries.population) * this.per100кРopulation),
+        per100KDeathInLastDay: Math.round((entries.todayDeaths / entries.population) * this.per100кРopulation),
+        per100KRecoveryInLastDay: Math.round((entries.todayRecovered / entries.population) * this.per100кРopulation),
+
+      },
+    );
+  }
+
+  get getCountriesData() {
+    return this.apiDataCountry;
+  }
+
+  get getTotalData() {
+    return this.apiDataTotal;
+  }
+
+  get getTestData() {
+    return this.apiDataTotal;
+  }
 }
 
-testW = new Dictionary();
-console.log(testW.dataFromCovodApi, 'e6');
-
-window.addEventListener('load', (event) => {
-  console.log('All resources finished loading!');
-});
-
-this.entries.forEach((element) => {
-  this.apiData.push(
-    {
-      country: element.country,
-      iso3: element.countryInfo.iso3,
-      // flag: element.countryInfo.flag,
-      // countryСenterСoordinates: `${element.countryInfo.lat},${element.countryInfo.long}`,
-      // totalCases: element.cases,
-      // totalDeaths: element.deaths,
-      // totalRecovery: element.recovered,
-      // casesInLastDay: element.todayCases,
-      // deathInLastDay: element.todayDeaths,
-      // recoveryInLastDay: element.todayRecovered,
-      // per100KCases: 0,
-      // per100KDeath: 0,
-      // per100KRecovery: 0,
-      // per100KCasesInLastDay: 0,
-      // per100KDeathInLastDay: 0,
-      // per100KRecoveryInLastDay: 0,
-
-    },
-  );
-});
+function main(globalCovid, contrCovid) {
+  testCovid = new Covid19(globalCovid, contrCovid);
+  console.log(testCovid.getTestData)
+  console.log(testCovid.getCountriesData)
+}
