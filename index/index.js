@@ -1,26 +1,22 @@
-
-
-
 (async () => {
   let contrCovid;
   let globalCovid;
+  const dateCovidData = {};
   // let contrCovidfromDate;
 
   await fetch('https://disease.sh/v3/covid-19/all')
     .then((response) => response.json())
     .then((entries) => {
       // console.log(entries)
-      globalCovid = entries
+      globalCovid = entries;
     });
-
 
   await fetch('https://disease.sh/v3/covid-19/countries')
     .then((response) => response.json())
     .then((entries) => {
       // console.log(entries)
-      contrCovid = entries
+      contrCovid = entries;
     });
-
 
   // await fetch('https://disease.sh/v3/covid-19/all')
   //   .then((response) => response.json())
@@ -29,31 +25,32 @@
   //   })
 
   await (() => {
-    console.log('4444')
+    console.log('4444');
     contrCovid.forEach((element) => {
       // console.log(element.countryInfo.iso3)
       fetch(`https://disease.sh/v3/covid-19/historical/${element.countryInfo.iso3}?lastdays=all`)
         .then((response) => {
           if (!response.ok) {
-            throw Error(`is not ok: ` + resp.status);
+            throw Error(`is not ok: ${resp.status}`);
           }
-
-          // console.log(response.ok);
-          return response.json()
+          return response.json();
         })
         .then((entries) => {
-          console.log(entries)
-
+          console.log('++++++++++++++++++', entries);
+          // window['mySettings']
+          dateCovidData[entries.country]= entries.timeline
+          
         })
         .catch((err) => {
-          console.warn(err)
-        })
+          console.warn(err);
+        });
     });
-  })()
+  })();
 
 
-  await main(globalCovid, contrCovid)
+console.log('////////////////////////////////////',dateCovidData)
 
+  await main(globalCovid, contrCovid, dateCovidData);
 })();
 
 class Covid19 {
@@ -93,6 +90,7 @@ class Covid19 {
           per100KCasesInLastDay: Math.round((element.todayCases / element.population) * this.per100кРopulation),
           per100KDeathInLastDay: Math.round((element.todayDeaths / element.population) * this.per100кРopulation),
           per100KRecoveryInLastDay: Math.round((element.todayRecovered / element.population) * this.per100кРopulation),
+          history: [0, 1, 2],
 
         },
       );
@@ -100,7 +98,7 @@ class Covid19 {
   }
 
   getDataFromCovodApiTotal() {
-    let entries = this.dataGlobalCovid
+    const entries = this.dataGlobalCovid;
     this.apiDataTotal.push(
       {
         country: 'total',
@@ -136,6 +134,6 @@ class Covid19 {
 
 function main(globalCovid, contrCovid) {
   testCovid = new Covid19(globalCovid, contrCovid);
-  console.log(testCovid.getTestData)
-  console.log(testCovid.getCountriesData)
+  console.log(testCovid.getTestData);
+  console.log(testCovid.getCountriesData);
 }
