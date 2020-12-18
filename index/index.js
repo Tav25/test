@@ -38,8 +38,7 @@
         .then((entries) => {
           console.log('++++++++++++++++++', entries);
           // window['mySettings']
-          dateCovidData[entries.country]= entries.timeline
-          
+          dateCovidData[entries.country] = entries.timeline;
         })
         .catch((err) => {
           console.warn(err);
@@ -47,8 +46,7 @@
     });
   })();
 
-
-console.log('////////////////////////////////////',dateCovidData)
+  console.log('////////////////////////////////////', dateCovidData);
 
   await main(globalCovid, contrCovid, dateCovidData);
 })();

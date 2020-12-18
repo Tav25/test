@@ -55,3 +55,12 @@ getDate() {
   // тут код, выдирающий последнюю дату, за которую есть данные по всем странам
   return date; // 'dd/mm/yy hh:mm'
 }
+
+
+
+// //const milliseconds = 1608241233914
+
+// const dateObject = new Date(milliseconds)
+
+
+// console.log(dateObject.toLocaleString('en-GB'));
